@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroceryMart - Complete Online Grocery Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#ecfdf5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="font-inter bg-gray-50">
+
+    <!-- @COMPONENT: Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-shopping-basket text-primary-600 text-2xl mr-3"></i>
+                    <span class="text-xl font-bold text-gray-900">GroceryMart</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Categories</a>
+                    <a href="#" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">About</a>
+                    <a href="#" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Contact</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Search products..." class="w-64 pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <button class="relative p-2 text-gray-600 hover:text-primary-600 transition-colors" data-bind="cartItemCount">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </button>
+                    <button class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors">
+                        <i class="fas fa-user mr-2"></i>Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navigation -->
+
+    <!-- @COMPONENT: ProductListing -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-primary-600 to-teal-600 rounded-2xl p-8 mb-8 text-white">
+            <div class="max-w-2xl">
+                <h1 class="text-4xl font-bold mb-4">Fresh Groceries Delivered to Your Door</h1>
+                <p class="text-lg opacity-90 mb-6">Get the freshest produce, pantry staples, and household essentials delivered fast.</p>
+                <button class="bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    Shop Now
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="flex flex-wrap gap-3 mb-8">
+            <button class="bg-primary-600 text-white px-4 py-2 rounded-full font-medium">All Products</button>
+            <button class="bg-white text-gray-700 px-4 py-2 rounded-full font-medium border border-gray-300 hover:border-primary-600 hover:text-primary-600 transition-colors">Fruits & Vegetables</button>
+            <button class="bg-white text-gray-700 px-4 py-2 rounded-full font-medium border border-gray-300 hover:border-primary-600 hover:text-primary-600 transition-colors">Dairy & Eggs</button>
+            <button class="bg-white text-gray-700 px-4 py-2 rounded-full font-medium border border-gray-300 hover:border-primary-600 hover:text-primary-600 transition-colors">Meat & Seafood</button>
+            <button class="bg-white text-gray-700 px-4 py-2 rounded-full font-medium border border-gray-300 hover:border-primary-600 hover:text-primary-600 transition-colors">Pantry Staples</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+            <!-- @MAP: products.map(product => ( -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300" data-mock="true">
+                <!-- Fresh organic bananas from Ecuador, perfectly ripe and yellow -->
+                <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300" alt="Fresh organic bananas" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-primary-600 font-medium">Fruits</span>
+                        <span class="text-sm text-gray-500">1 kg</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2" data-bind="product.name">Organic Bananas</h3>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-1">
+                            <span class="text-lg font-bold text-gray-900" data-bind="product.price">$2.99</span>
+                            <span class="text-sm text-gray-500 line-through">$3.49</span>
+                        </div>
+                        <button class="bg-primary-600 text-white px-3 py-1.5 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium" data-event="click:addToCart">
+                            <i class="fas fa-plus mr-1"></i>Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300" data-mock="true">
+                <!-- Fresh whole milk in glass bottle, creamy and nutritious -->
+                <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300" alt="Fresh whole milk" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-blue-600 font-medium">Dairy</span>
+                        <span class="text-sm text-gray-500">1 L</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Whole Milk</h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-gray-900">$3.49</span>
+                        <button class="bg-primary-600 text-white px-3 py-1.5 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium">
+                            <i class="fas fa-plus mr-1"></i>Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300" data-mock="true">
+                <!-- Fresh salmon fillet, pink and glistening, ready for cooking -->
+                <img src="https://images.unsplash.com/photo-1544943910-4c1dc44aab44?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300" alt="Fresh salmon fillet" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-orange-600 font-medium">Seafood</span>
+                        <span class="text-sm text-gray-500">500g</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Atlantic Salmon</h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-gray-900">$12.99</span>
+                        <button class="bg-primary-600 text-white px-3 py-1.5 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium">
+                            <i class="fas fa-plus mr-1"></i>Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300" data-mock="true">
+                <!-- Assorted fresh vegetables including tomatoes, peppers, and leafy greens -->
+                <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300" alt="Fresh mixed vegetables" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-green-600 font-medium">Vegetables</span>
+                        <span class="text-sm text-gray-500">Mixed</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Mixed Vegetables</h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-gray-900">$4.99</span>
+                        <button class="bg-primary-600 text-white px-3 py-1.5 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium">
+                            <i class="fas fa-plus mr-1"></i>Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300" data-mock="true">
+                <!-- Brown free-range eggs in a carton, farm fresh and organic -->
+                <img src="https://images.unsplash.com/photo-1518569656558-1f25e69d93d7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300" alt="Free-range brown eggs" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-yellow-600 font-medium">Eggs</span>
+                        <span class="text-sm text-gray-500">12 pcs</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Free Range Eggs</h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-gray-900">$5.99</span>
+                        <button class="bg-primary-600 text-white px-3 py-1.5 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium">
+                            <i class="fas fa-plus mr-1"></i>Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300" data-mock="true">
+                <!-- Artisan whole grain bread loaf with seeds on top -->
+                <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300" alt="Artisan whole grain bread" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-amber-600 font-medium">Bakery</span>
+                        <span class="text-sm text-gray-500">1 loaf</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Whole Grain Bread</h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-bold text-gray-900">$3.99</span>
+                        <button class="bg-primary-600 text-white px-3 py-1.5 rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium">
+                            <i class="fas fa-plus mr-1"></i>Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_MAP )) -->
+        </div>
+    </main>
+    <!-- @END_COMPONENT: ProductListing -->
+
+    <!-- @COMPONENT: ShoppingCart -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 hidden" id="cart-page">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Shopping Cart</h2>
+                <span class="text-sm text-gray-500" data-bind="cartItemCount">3 items</span>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <!-- @MAP: cartItems.map(item => ( -->
+                <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg" data-mock="true">
+                    <!-- Fresh organic bananas from Ecuador -->
+                    <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&h=80" alt="Organic bananas" class="w-16 h-16 object-cover rounded-lg">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-gray-900" data-bind="item.name">Organic Bananas</h3>
+                        <p class="text-sm text-gray-500">1 kg</p>
+                        <p class="text-lg font-bold text-primary-600" data-bind="item.price">$2.99</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50" data-event="click:decreaseQuantity">
+                            <i class="fas fa-minus text-xs"></i>
+                        </button>
+                        <span class="w-8 text-center font-medium" data-bind="item.quantity">2</span>
+                        <button class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50" data-event="click:increaseQuantity">
+                            <i class="fas fa-plus text-xs"></i>
+                        </button>
+                    </div>
+                    <button class="text-red-500 hover:text-red-700 p-2" data-event="click:removeItem">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+
+                <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg" data-mock="true">
+                    <!-- Fresh whole milk in glass bottle -->
+                    <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&h=80" alt="Whole milk" class="w-16 h-16 object-cover rounded-lg">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-gray-900">Whole Milk</h3>
+                        <p class="text-sm text-gray-500">1 L</p>
+                        <p class="text-lg font-bold text-primary-600">$3.49</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                            <i class="fas fa-minus text-xs"></i>
+                        </button>
+                        <span class="w-8 text-center font-medium">1</span>
+                        <button class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50">
+                            <i class="fas fa-plus text-xs"></i>
+                        </button>
+                    </div>
+                    <button class="text-red-500 hover:text-red-700 p-2">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+
+            <div class="border-t border-gray-200 pt-6">
+                <div class="space-y-2 mb-4">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal</span>
+                        <span data-bind="cart.subtotal">$9.47</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Delivery Fee</span>
+                        <span>$2.99</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold text-gray-900 border-t border-gray-200 pt-2">
+                        <span>Total</span>
+                        <span data-bind="cart.total">$12.46</span>
+                    </div>
+                </div>
+                <button class="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors" data-event="click:proceedToCheckout">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: ShoppingCart -->
+
+    <!-- @COMPONENT: CheckoutForm -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 hidden" id="checkout-page">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Checkout Form -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Checkout Details</h2>
+                <form class="space-y-4" data-event="submit:processOrder">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Enter your full name" data-bind="checkout.fullName">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                        <input type="tel" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="+92 300 1234567" data-bind="checkout.phone">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                        <textarea required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" rows="3" placeholder="Enter your complete address" data-bind="checkout.address"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                        <select required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" data-bind="checkout.city">
+                            <option value="">Select your city</option>
+                            <option value="karachi">Karachi</option>
+                            <option value="lahore">Lahore</option>
+                            <option value="islamabad">Islamabad</option>
+                            <option value="faisalabad">Faisalabad</option>
+                            <option value="rawalpindi">Rawalpindi</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Payment Method</label>
+                        <div class="space-y-3">
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="payment" value="cod" class="text-primary-600 focus:ring-primary-500" data-bind="checkout.paymentMethod">
+                                <div class="ml-3">
+                                    <div class="font-medium text-gray-900">Cash on Delivery</div>
+                                    <div class="text-sm text-gray-500">Pay when you receive your order</div>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="payment" value="jazzcash" class="text-primary-600 focus:ring-primary-500">
+                                <div class="ml-3">
+                                    <div class="font-medium text-gray-900">JazzCash</div>
+                                    <div class="text-sm text-gray-500">Pay online with JazzCash</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors" data-implementation="Should validate form and process payment">
+                        <i class="fas fa-lock mr-2"></i>Place Order
+                    </button>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Order Summary</h3>
+                <div class="space-y-3 mb-6">
+                    <!-- @MAP: cartItems.map(item => ( -->
+                    <div class="flex justify-between items-center" data-mock="true">
+                        <div>
+                            <span class="font-medium text-gray-900" data-bind="item.name">Organic Bananas</span>
+                            <span class="text-gray-500 text-sm ml-2">x2</span>
+                        </div>
+                        <span class="font-medium" data-bind="item.total">$5.98</span>
+                    </div>
+                    <div class="flex justify-between items-center" data-mock="true">
+                        <div>
+                            <span class="font-medium text-gray-900">Whole Milk</span>
+                            <span class="text-gray-500 text-sm ml-2">x1</span>
+                        </div>
+                        <span class="font-medium">$3.49</span>
+                    </div>
+                    <!-- @END_MAP )) -->
+                </div>
+                
+                <div class="border-t border-gray-200 pt-4 space-y-2">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal</span>
+                        <span>$9.47</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Delivery Fee</span>
+                        <span>$2.99</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold text-gray-900 border-t border-gray-200 pt-2">
+                        <span>Total</span>
+                        <span>$12.46</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: CheckoutForm -->
+
+    <!-- @COMPONENT: OrderConfirmation -->
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 hidden" id="confirmation-page">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-green-600 text-2xl"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Order Confirmed!</h2>
+            <p class="text-gray-600 mb-6">Thank you for your order. We'll send you a confirmation email shortly.</p>
+            
+            <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="text-gray-500">Order Number:</span>
+                        <span class="font-semibold ml-2" data-bind="order.id">#ORD-12345</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Estimated Delivery:</span>
+                        <span class="font-semibold ml-2">Tomorrow</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Payment Method:</span>
+                        <span class="font-semibold ml-2" data-bind="order.paymentMethod">Cash on Delivery</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500">Total Amount:</span>
+                        <span class="font-semibold ml-2" data-bind="order.total">$12.46</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
+                    Track Order
+                </button>
+                <button class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: OrderConfirmation -->
+
+    <!-- @COMPONENT: AdminLogin -->
+    <div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 hidden" id="admin-login">
+        <div class="max-w-md w-full space-y-8">
+            <div class="text-center">
+                <i class="fas fa-shield-alt text-primary-600 text-4xl mb-4"></i>
+                <h2 class="text-3xl font-bold text-gray-900">Admin Login</h2>
+                <p class="mt-2 text-gray-600">Sign in to access the admin dashboard</p>
+            </div>
+            <form class="mt-8 space-y-6" data-event="submit:adminLogin">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="admin@grocerymart.com" data-bind="admin.email">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="••••••••" data-bind="admin.password">
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors" data-implementation="Should authenticate admin credentials">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: AdminLogin -->
+
+    <!-- @COMPONENT: AdminDashboard -->
+    <div class="min-h-screen bg-gray-50 hidden" id="admin-dashboard">
+        <!-- Admin Navigation -->
+        <nav class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <i class="fas fa-shopping-basket text-primary-600 text-2xl mr-3"></i>
+                        <span class="text-xl font-bold text-gray-900">GroceryMart Admin</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600">Welcome, Admin</span>
+                        <button class="text-gray-600 hover:text-gray-900 transition-colors">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="flex">
+            <!-- Sidebar -->
+            <div class="w-64 bg-white shadow-sm h-screen">
+                <nav class="mt-5 px-2">
+                    <a href="#" class="bg-primary-50 text-primary-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md mb-1">
+                        <i class="fas fa-chart-bar mr-3"></i>Dashboard
+                    </a>
+                    <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md mb-1">
+                        <i class="fas fa-box mr-3"></i>Products
+                    </a>
+                    <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md mb-1">
+                        <i class="fas fa-shopping-bag mr-3"></i>Orders
+                    </a>
+                    <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md mb-1">
+                        <i class="fas fa-users mr-3"></i>Customers
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 p-8">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-dollar-sign text-green-600 text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-500">Total Revenue</p>
+                                <p class="text-2xl font-semibold text-gray-900" data-bind="stats.revenue">$24,567</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-shopping-bag text-blue-600 text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-500">Total Orders</p>
+                                <p class="text-2xl font-semibold text-gray-900" data-bind="stats.orders">489</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-box text-purple-600 text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-500">Products</p>
+                                <p class="text-2xl font-semibold text-gray-900" data-bind="stats.products">156</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-users text-orange-600 text-2xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-500">Customers</p>
+                                <p class="text-2xl font-semibold text-gray-900" data-bind="stats.customers">1,234</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Management -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Add Product Form -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Add New Product</h3>
+                        <form class="space-y-4" data-event="submit:addProduct">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-400 transition-colors cursor-pointer" data-implementation="Implement file upload functionality">
+                                    <i class="fas fa-cloud-upload-alt text-gray-400 text-3xl mb-2"></i>
+                                    <p class="text-gray-500">Click to upload product image</p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+                                <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Enter product name" data-bind="product.name">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                                <select required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" data-bind="product.category">
+                                    <option value="">Select category</option>
+                                    <option value="fruits">Fruits & Vegetables</option>
+                                    <option value="dairy">Dairy & Eggs</option>
+                                    <option value="meat">Meat & Seafood</option>
+                                    <option value="pantry">Pantry Staples</option>
+                                    <option value="bakery">Bakery</option>
+                                </select>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Price ($)</label>
+                                    <input type="number" step="0.01" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="0.00" data-bind="product.price">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Unit</label>
+                                    <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="kg, L, pcs" data-bind="product.unit">
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors" data-implementation="Should validate and add product to database">
+                                <i class="fas fa-plus mr-2"></i>Add Product
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Recent Orders -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-bold text-gray-900">Recent Orders</h3>
+                            <a href="#" class="text-primary-600 hover:text-primary-700 font-medium">View All</a>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <!-- @MAP: recentOrders.map(order => ( -->
+                            <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg" data-mock="true">
+                                <div>
+                                    <p class="font-semibold text-gray-900" data-bind="order.id">#ORD-12345</p>
+                                    <p class="text-sm text-gray-500" data-bind="order.customer">John Doe</p>
+                                    <p class="text-sm text-gray-500" data-bind="order.date">Today, 2:30 PM</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-gray-900" data-bind="order.total">$12.46</p>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        Pending
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg" data-mock="true">
+                                <div>
+                                    <p class="font-semibold text-gray-900">#ORD-12344</p>
+                                    <p class="text-sm text-gray-500">Jane Smith</p>
+                                    <p class="text-sm text-gray-500">Today, 1:15 PM</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-gray-900">$25.80</p>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        Processing
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg" data-mock="true">
+                                <div>
+                                    <p class="font-semibold text-gray-900">#ORD-12343</p>
+                                    <p class="text-sm text-gray-500">Mike Johnson</p>
+                                    <p class="text-sm text-gray-500">Yesterday, 6:45 PM</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-gray-900">$18.99</p>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Completed
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Management Table -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">All Orders</h3>
+                        <div class="flex space-x-2">
+                            <select class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option>All Status</option>
+                                <option>Pending</option>
+                                <option>Processing</option>
+                                <option>Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- @MAP: orders.map(order => ( -->
+                                <tr data-mock="true">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" data-bind="order.id">#ORD-12345</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" data-bind="order.customer">John Doe</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" data-bind="order.date">Dec 15, 2023</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" data-bind="order.total">$12.46</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <select class="text-sm border border-gray-300 rounded px-2 py-1" data-event="change:updateOrderStatus">
+                                            <option value="pending" selected>Pending</option>
+                                            <option value="processing">Processing</option>
+                                            <option value="completed">Completed</option>
+                                        </select>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-primary-600 hover:text-primary-900 mr-3" data-event="click:viewOrder">View</button>
+                                        <button class="text-red-600 hover:text-red-900" data-event="click:deleteOrder">Delete</button>
+                                    </td>
+                                </tr>
+                                
+                                <tr data-mock="true">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-12344</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Jane Smith</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Dec 15, 2023</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$25.80</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <select class="text-sm border border-gray-300 rounded px-2 py-1">
+                                            <option value="pending">Pending</option>
+                                            <option value="processing" selected>Processing</option>
+                                            <option value="completed">Completed</option>
+                                        </select>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-primary-600 hover:text-primary-900 mr-3">View</button>
+                                        <button class="text-red-600 hover:text-red-900">Delete</button>
+                                    </td>
+                                </tr>
+                                <!-- @END_MAP )) -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: AdminDashboard -->
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span id="toast-message">Product added to cart successfully!</span>
+        </div>
+    </div>
+
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        
+        // Simple page navigation simulation
+        (function() {
+            let currentPage = 'home';
+            
+            function showPage(page) {
+                // Hide all pages
+                document.querySelectorAll('[id$="-page"], #admin-login, #admin-dashboard').forEach(el => {
+                    el.classList.add('hidden');
+                });
+                
+                // Show main content by default
+                document.querySelector('main').classList.remove('hidden');
+                
+                switch(page) {
+                    case 'cart':
+                        document.querySelector('main').classList.add('hidden');
+                        document.getElementById('cart-page').classList.remove('hidden');
+                        break;
+                    case 'checkout':
+                        document.querySelector('main').classList.add('hidden');
+                        document.getElementById('checkout-page').classList.remove('hidden');
+                        break;
+                    case 'confirmation':
+                        document.querySelector('main').classList.add('hidden');
+                        document.getElementById('confirmation-page').classList.remove('hidden');
+                        break;
+                    case 'admin-login':
+                        document.querySelector('main').classList.add('hidden');
+                        document.getElementById('admin-login').classList.remove('hidden');
+                        break;
+                    case 'admin-dashboard':
+                        document.querySelector('main').classList.add('hidden');
+                        document.getElementById('admin-dashboard').classList.remove('hidden');
+                        break;
+                }
+            }
+            
+            // Toast notification function
+            function showToast(message, type = 'success') {
+                const toast = document.getElementById('toast');
+                const toastMessage = document.getElementById('toast-message');
+                
+                toastMessage.textContent = message;
+                toast.className = toast.className.replace(/bg-\w+-500/, `bg-${type === 'success' ? 'green' : 'red'}-500`);
+                
+                toast.classList.remove('translate-x-full');
+                
+                setTimeout(() => {
+                    toast.classList.add('translate-x-full');
+                }, 3000);
+            }
+            
+            // Demo navigation handlers
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-event*="addToCart"]')) {
+                    e.preventDefault();
+                    showToast('Product added to cart successfully!');
+                } else if (e.target.closest('[data-event*="proceedToCheckout"]')) {
+                    e.preventDefault();
+                    showPage('checkout');
+                } else if (e.target.closest('button[data-bind="cartItemCount"]') || e.target.closest('.fa-shopping-cart')) {
+                    e.preventDefault();
+                    showPage('cart');
+                } else if (e.target.textContent.includes('Admin') && e.target.tagName === 'BUTTON') {
+                    e.preventDefault();
+                    showPage('admin-login');
+                }
+            });
+            
+            // Form submission handlers
+            document.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (e.target.closest('[data-event*="processOrder"]')) {
+                    showToast('Order placed successfully!');
+                    setTimeout(() => showPage('confirmation'), 1000);
+                } else if (e.target.closest('[data-event*="adminLogin"]')) {
+                    showToast('Admin login successful!');
+                    setTimeout(() => showPage('admin-dashboard'), 1000);
+                } else if (e.target.closest('[data-event*="addProduct"]')) {
+                    showToast('Product added successfully!');
+                    e.target.reset();
+                }
+            });
+            
+            // Initialize
+            showPage('home');
+        })();
+    </script>
+</body>
+</html>
