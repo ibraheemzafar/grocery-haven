@@ -1,9 +1,9 @@
 import { Link } from "wouter";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import CartItemComponent from "@/components/cart-item";
-import { useCartStore } from "@/lib/cart-store";
+import { Button } from "../components/ui/button";
+import { Card, CardContent } from "../components/ui/card";
+import CartItemComponent from "../components/cart-item";
+import { useCartStore } from "../lib/cart-store";
 
 export default function Cart() {
   const { items, getCartTotal, getCartItemCount } = useCartStore();

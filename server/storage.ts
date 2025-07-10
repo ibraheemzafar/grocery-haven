@@ -14,7 +14,7 @@ import {
   orders,
   admins,
   users
-} from "@shared/schema";
+} from "../shared/schema"; // Adjust the import path as necessary
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 import { Search } from "lucide-react";
-import ProductCard from "@/components/product-card";
-import type { Product } from "@shared/schema";
+import ProductCard from "../components/product-card";
+import type { Product } from "../../../shared/schema";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");

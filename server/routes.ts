@@ -12,7 +12,7 @@ import {
   userSignupSchema,
   userLoginSchema,
   type CartItem 
-} from "@shared/schema";
+} from "../shared/schema";
 
 // Configure multer for file uploads
 const upload = multer({

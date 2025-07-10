@@ -1,17 +1,17 @@
 import { Link, useLocation } from "wouter";
 import { ShoppingCart, Search, User, LogOut, Package } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useCartStore } from "@/lib/cart-store";
-import { useAuthStore } from "@/lib/auth-store";
-import { useUserAuthStore } from "@/lib/user-auth-store";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { useCartStore } from "../lib/cart-store";
+import { useAuthStore } from "../lib/auth-store";
+import { useUserAuthStore } from "../lib/user-auth-store";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
   DropdownMenuItem, 
   DropdownMenuTrigger,
   DropdownMenuSeparator 
-} from "@/components/ui/dropdown-menu";
+} from "../components/ui/dropdown-menu";
 
 export default function Navbar() {
   const [location, setLocation] = useLocation();

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { CartItem, Product } from '@shared/schema';
+import type { CartItem, Product } from '../../../shared/schema';
 
 interface CartStore {
   items: CartItem[];

@@ -1,8 +1,8 @@
 import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useCartStore } from "@/lib/cart-store";
-import { useToast } from "@/hooks/use-toast";
-import type { Product } from "@shared/schema";
+import { Button } from "../components/ui/button";
+import { useCartStore } from "../lib/cart-store";
+import { useToast } from "../hooks/use-toast";
+import type { Product } from "../../../shared/schema";
 
 interface ProductCardProps {
   product: Product;

@@ -3,14 +3,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation } from "wouter";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { useUserAuthStore } from "@/lib/user-auth-store";
-import { apiRequest } from "@/lib/queryClient";
-import { userLoginSchema, type UserLoginData } from "@shared/schema";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { useToast } from "../hooks/use-toast";
+import { useUserAuthStore } from "../lib/user-auth-store";
+import { apiRequest } from "../lib/queryClient";
+import { userLoginSchema, type UserLoginData } from "../../../shared/schema";
 
 export default function Login() {
   const [, setLocation] = useLocation();

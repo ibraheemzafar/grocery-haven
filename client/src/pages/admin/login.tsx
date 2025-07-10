@@ -4,14 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { Shield, LogIn } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
-import { useAuthStore } from "@/lib/auth-store";
-import { apiRequest } from "@/lib/queryClient";
-import { adminLoginSchema, type AdminLoginData } from "@shared/schema";
+import { Button } from "../../components/ui/button";
+import { Card, CardContent } from "../../components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form";
+import { Input } from "../../components/ui/input";
+import { useToast } from "../../hooks/use-toast";
+import { useAuthStore } from "../../lib/auth-store";
+import { apiRequest } from "../../lib/queryClient";
+import { adminLoginSchema, type AdminLoginData } from "../../../../shared/schema";
 
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
