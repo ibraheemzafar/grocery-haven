@@ -25,12 +25,21 @@ export default function Home() {
 
   const categories = [
     { id: "all", name: "All Products" },
-    { id: "fruits", name: "Fruits & Vegetables" },
-    { id: "dairy", name: "Dairy & Eggs" },
-    { id: "meat", name: "Meat & Seafood" },
-    { id: "pantry", name: "Pantry Staples" },
-    { id: "bakery", name: "Bakery" },
-  ];
+    { id: "grains", name: "Food Grains & Pulses" },
+    { id: "flour-oil", name: "Flour, Oil & Ghee" },
+    { id: "spices", name: "Salt, Spices & Masala" },
+    { id: "bakery", name: "Bakery & Dairy" },
+    { id: "snacks", name: "Snacks & Namkeen" },
+    { id: "biscuits", name: "Biscuits & Cookies" },
+    { id: "chocolates", name: "Chocolates & Sweets" },
+    { id: "instant", name: "Instant Food & Pasta" },
+    { id: "beverages", name: "Beverages" },
+    { id: "sauces", name: "Sauces & Condiments" },
+    { id: "frozen", name: "Frozen Food" },
+    { id: "cleaning", name: "Cleaning & Household" },
+    { id: "hygiene", name: "Beauty & Hygiene" },
+    { id: "baby", name: "Baby Care" }
+  ]
 
   const filteredProducts = products.filter(product => {
     const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
@@ -79,10 +88,10 @@ export default function Home() {
 
       {/* Hero Section */}
       <div className="grocery-gradient rounded-2xl p-8 mb-8 text-white">
-        <div className="max-w-2xl">
-          <h1 className="text-4xl font-bold mb-4">Fresh Groceries Delivered to Your Door</h1>
+        <div className="max-w-4xl">
+          <h1 className="text-4xl font-bold mb-4">Groceries Delivered to Your Door – Fast, Easy, Convenient!</h1>
           <p className="text-lg opacity-90 mb-6">
-            Get the freshest produce, pantry staples, and household essentials delivered fast.
+            Shop all your grocery essentials online and have them delivered straight to your doorstep. From pantry staples to your everyday needs, we bring the store to you—quick, easy, and hassle-free.
           </p>
           <Button 
             className="bg-white text-primary hover:bg-gray-100"

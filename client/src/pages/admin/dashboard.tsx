@@ -12,7 +12,8 @@ import {
   Eye,
   Trash2,
   LogOut,
-  Bell
+  Bell,
+  Pencil
 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
@@ -40,6 +41,9 @@ export default function AdminDashboard() {
   const { logout, adminEmail } = useAuthStore();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   // WebSocket connection for real-time notifications
   const handleWebSocketMessage = useCallback((message: any) => {
@@ -76,7 +80,7 @@ export default function AdminDashboard() {
       price: "",
       category: "",
       unit: "",
-      image: "",
+      image: undefined,
     },
   });
 
@@ -94,6 +98,45 @@ export default function AdminDashboard() {
   });
 
   // Mutations
+
+  const updateProductMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number, data: FormData }) => {
+      const res = await fetch(`/api/products/${id}`, {
+        method: "PUT",
+        body: data,
+      });
+      if (!res.ok) throw new Error("Failed to update product");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/products"] });
+      toast({
+        title: "Product updated",
+        description: "The product was successfully updated.",
+      });
+    },
+  });
+
+  const deleteProductMutation = useMutation({
+    mutationFn: async (productId: number) => {
+      await apiRequest("DELETE", `/api/products/${productId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/products"] });
+      toast({
+        title: "Product deleted",
+        description: "The product has been removed.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to delete product.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const addProductMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await fetch("/api/products", {
@@ -148,12 +191,37 @@ export default function AdminDashboard() {
     },
   });
 
+  // const onSubmit = (data: any) => {
+  //   const formData = new FormData();
+  //   Object.keys(data).forEach((key) => {
+  //     if (data[key]) formData.append(key, data[key]);
+  //   });
+  //   addProductMutation.mutate(formData);
+  // };
+
   const onSubmit = (data: any) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      if (data[key]) formData.append(key, data[key]);
-    });
-    addProductMutation.mutate(formData);
+    console.log("Form data:", data);
+     const formData = new FormData();
+
+      for (const key in data) {
+        if (key === "image" && imageFile instanceof File) {
+          formData.append("image", imageFile); // ✅ actual File
+          console.log("data.image =", imageFile);
+          console.log("instanceof File =", imageFile instanceof File);
+        } else {
+          formData.append(key, data[key]);
+        }
+      }
+    console.log("FormData entries:", Array.from(formData.entries()));
+
+      
+    if (editingProduct) {
+      updateProductMutation.mutate({ id: editingProduct.id, data: formData });
+      setEditingProduct(null);
+    } else {
+
+      addProductMutation.mutate(formData);
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -339,69 +407,62 @@ export default function AdminDashboard() {
           )}
 
           {activeTab === "products" && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Add Product Form */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Add New Product</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                        <Upload className="text-gray-400 h-8 w-8 mx-auto mb-2" />
-                        <p className="text-gray-500">Image upload not implemented in demo</p>
-                      </div>
-                      
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Product Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter product name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="category"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Category</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <div className="p-8">
+              <h2 className="text-2xl font-bold mb-4">Products ({products.length})</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Product Form */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{editingProduct ? "Edit Product" : "Add Product"}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Product Name</FormLabel>
                               <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select category" />
-                                </SelectTrigger>
+                                <Input {...field} placeholder="Name" />
                               </FormControl>
-                              <SelectContent>
-                                <SelectItem value="fruits">Fruits & Vegetables</SelectItem>
-                                <SelectItem value="dairy">Dairy & Eggs</SelectItem>
-                                <SelectItem value="meat">Meat & Seafood</SelectItem>
-                                <SelectItem value="pantry">Pantry Staples</SelectItem>
-                                <SelectItem value="bakery">Bakery</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <div className="grid grid-cols-2 gap-4">
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
                         <FormField
                           control={form.control}
                           name="price"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Price ($)</FormLabel>
+                              <FormLabel>Price</FormLabel>
                               <FormControl>
-                                <Input type="number" step="0.01" placeholder="0.00" {...field} />
+                                <Input {...field} type="number" />
                               </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="category"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Category</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select category" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="fruits">Fruits & Vegetables</SelectItem>
+                                  <SelectItem value="dairy">Dairy & Eggs</SelectItem>
+                                  <SelectItem value="meat">Meat & Seafood</SelectItem>
+                                  <SelectItem value="pantry">Pantry Staples</SelectItem>
+                                </SelectContent>
+                              </Select>
                               <FormMessage />
                             </FormItem>
                           )}
@@ -413,56 +474,88 @@ export default function AdminDashboard() {
                             <FormItem>
                               <FormLabel>Unit</FormLabel>
                               <FormControl>
-                                <Input placeholder="kg, L, pcs" {...field} />
+                                <Input {...field} placeholder="kg, L, pcs" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
-                      </div>
-                      
-                      <Button 
-                        type="submit" 
-                        className="w-full bg-primary hover:bg-primary/90"
-                        disabled={addProductMutation.isPending}
-                      >
-                        <Plus className="h-4 w-4 mr-2" />
-                        {addProductMutation.isPending ? "Adding..." : "Add Product"}
-                      </Button>
-                    </form>
-                  </Form>
-                </CardContent>
-              </Card>
+<FormField
+  name="image"
+  render={() => (
+    <FormItem>
+      <FormLabel>Image</FormLabel>
+      <FormControl>
+        <Input 
+          type="file" 
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              setImageFile(file); // store in state, not in form
+            }
+          }}
+        />
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+                        <Button type="submit" className="w-full">
+                          {editingProduct ? "Update Product" : "Add Product"}
+                        </Button>
+                      </form>
+                    </Form>
+                  </CardContent>
+                </Card>
 
-              {/* Products List */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Products ({products.length})</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4 max-h-96 overflow-y-auto">
-                    {products.map((product) => (
-                      <div key={product.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-                        <div className="flex items-center space-x-3">
-                          <img 
-                            src={product.image || "/api/placeholder/50/50"} 
-                            alt={product.name}
-                            className="w-12 h-12 object-cover rounded"
-                            onError={(e) => {
-                              e.currentTarget.src = "https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50";
-                            }}
-                          />
+                {/* Products List */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Product List</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4 max-h-[500px] overflow-y-auto">
+                      {products.map((product) => (
+                        <div
+                          key={product.id}
+                          className="flex items-center justify-between border p-4 rounded"
+                        >
                           <div>
-                            <p className="font-medium text-gray-900">{product.name}</p>
+                            <p className="font-semibold">{product.name}</p>
                             <p className="text-sm text-gray-500">${product.price}</p>
                           </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              onClick={() => {
+                                setEditingProduct(product);
+                                form.reset({
+                                  name: product.name,
+                                  price: product.price,
+                                  category: product.category,
+                                  unit: product.unit,
+                                  image: "",
+                                });
+                              }}
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="text-red-600"
+                              onClick={() => deleteProductMutation.mutate(product.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
-                        <Badge variant="outline">{product.category}</Badge>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           )}
 

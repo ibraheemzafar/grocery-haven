@@ -30,7 +30,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-8">
+          {/* <div className="hidden md:flex items-center space-x-8">
             <Link href="/">
               <span className={`font-medium transition-colors cursor-pointer ${
                 location === "/" ? "text-primary" : "text-gray-700 hover:text-primary"
@@ -47,10 +47,10 @@ export default function Navbar() {
             <span className="text-gray-700 hover:text-primary font-medium transition-colors cursor-pointer">
               Contact
             </span>
-          </div>
+          </div> */}
 
           <div className="flex items-center space-x-4">
-            <div className="relative hidden md:block">
+            {/* <div className="relative hidden md:block">
               <Input 
                 type="text" 
                 placeholder="Search products..." 
@@ -63,7 +63,7 @@ export default function Navbar() {
                 }}
               />
               <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            </div>
+            </div> */}
 
             <Link href="/cart">
               <Button variant="ghost" size="sm" className="relative">

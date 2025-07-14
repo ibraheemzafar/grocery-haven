@@ -36,9 +36,9 @@ export default function ProductCard({ product }: ProductCardProps) {
       <img 
         src={product.image || "/api/placeholder/400/300"} 
         alt={product.name}
-        className="w-full h-48 object-cover"
+        className="w-full h-48 object-contain"
         onError={(e) => {
-          e.currentTarget.src = "https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300";
+          e.currentTarget.src = "https://img.freepik.com/premium-vector/food-storage-shelf-isolated-set-collection-flat-cartoon-design-element-illustration_133260-3092.jpg";
         }}
       />
       <div className="p-4">

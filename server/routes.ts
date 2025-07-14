@@ -14,13 +14,17 @@ import {
   type CartItem 
 } from "../shared/schema";
 
+import { uploadImageToFirebase } from "./uploadImageToFirebase";
+
 // Configure multer for file uploads
-const upload = multer({
+const upload = multer({ 
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
+      console.log("===> 1")
       cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
+      console.log("===> 2")
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
       cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
     }
@@ -33,6 +37,15 @@ const upload = multer({
     }
   }
 });
+
+// const upload = multer({
+//   storage: multer.memoryStorage(), // ✅ Use memory, not disk
+//   fileFilter: (req, file, cb) => {
+//     console.log("===> 3")
+//     cb(null, true);
+    
+//   }
+// });
 
 // WebSocket connections for real-time notifications
 const adminConnections = new Set<WebSocket>();
@@ -67,10 +80,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/products", upload.single('image'), async (req, res) => {
     try {
-      const productData = insertProductSchema.parse(req.body);
+      console.log("productData", req.body);
+       const { image, ...safeBody } = req.body;
+      const productData = insertProductSchema.parse(safeBody);
+
       if (req.file) {
         productData.image = `/uploads/${req.file.filename}`;
       }
+
+      console.log("productData", productData);
+       // ✅ Add image path from multer (or Firebase URL)
+      // if (req.file) {
+      //   const imageUrl = await uploadImageToFirebase(req.file);
+      //   console.log("Image uploaded to Firebase:", imageUrl);
+      //   productData.image = imageUrl;
+      // }
+
       const product = await storage.createProduct(productData);
       res.status(201).json(product);
     } catch (error) {
