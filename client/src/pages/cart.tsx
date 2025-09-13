@@ -64,15 +64,15 @@ export default function Cart() {
             <div className="space-y-2 mb-4">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>Rs {subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-gray-600">
                 <span>Delivery Fee</span>
-                <span>${deliveryFee.toFixed(2)}</span>
+                <span>Rs {deliveryFee.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-lg font-bold text-gray-900 border-t border-gray-200 pt-2">
                 <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+                <span>Rs {total.toFixed(2)}</span>
               </div>
             </div>
             <Link href="/checkout">

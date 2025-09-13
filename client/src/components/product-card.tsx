@@ -52,7 +52,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-1">
             <span className="text-lg font-bold text-gray-900">
-              ${parseFloat(product.price).toFixed(2)}
+              Rs {parseFloat(product.price).toFixed(2)}
             </span>
           </div>
           <Button 

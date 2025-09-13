@@ -326,7 +326,7 @@ export default function AdminDashboard() {
                       <div className="ml-4">
                         <p className="text-sm font-medium text-gray-500">Total Revenue</p>
                         <p className="text-2xl font-semibold text-gray-900">
-                          ${stats?.revenue?.toFixed(2) || "0.00"}
+                          Rs {stats?.revenue?.toFixed(2) || "0.00"}
                         </p>
                       </div>
                     </div>
@@ -393,7 +393,7 @@ export default function AdminDashboard() {
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="font-semibold text-gray-900">${order.total}</p>
+                          <p className="font-semibold text-gray-900">Rs {order.total}</p>
                           <Badge className={getStatusColor(order.status)}>
                             {order.status}
                           </Badge>
@@ -522,7 +522,7 @@ export default function AdminDashboard() {
                         >
                           <div>
                             <p className="font-semibold">{product.name}</p>
-                            <p className="text-sm text-gray-500">${product.price}</p>
+                            <p className="text-sm text-gray-500">Rs {product.price}</p>
                           </div>
                           <div className="flex items-center gap-2">
                             <Button
@@ -582,7 +582,7 @@ export default function AdminDashboard() {
                         <TableCell className="font-medium">#{order.id}</TableCell>
                         <TableCell>{order.customer?.fullName}</TableCell>
                         <TableCell>{new Date(order.createdAt!).toLocaleDateString()}</TableCell>
-                        <TableCell>${order.total}</TableCell>
+                        <TableCell>Rs {order.total}</TableCell>
                         <TableCell>
                           <Select
                             value={order.status}

@@ -37,7 +37,7 @@ export default function CartItemComponent({ item }: CartItemProps) {
       <div className="flex-1">
         <h3 className="font-semibold text-gray-900">{item.product.name}</h3>
         <p className="text-sm text-gray-500">{item.product.unit}</p>
-        <p className="text-lg font-bold text-primary">${itemTotal}</p>
+        <p className="text-lg font-bold text-primary">Rs {itemTotal}</p>
       </div>
       <div className="flex items-center space-x-3">
         <Button
